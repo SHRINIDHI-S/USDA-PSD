@@ -21,48 +21,44 @@ tab1, tab2, tab3 = st.tabs(["Introduction", "Supply & Demand Calculator", "Appen
 # %%
 
 # %% Introduction Content – Styled and Rendered
+import streamlit.components.v1 as components
+
 with tab1:
-    st.markdown("""
+    components.html("""
     <style>
-    .intro-card {
-        background-color: #f8f9fa;
-        padding: 25px 30px;
-        border-radius: 12px;
-        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
-        color: #000000;
-        font-family: 'Segoe UI', sans-serif;
-    }
-    .intro-card h2 {
-        color: #2e6f95;
-        margin-bottom: 12px;
-    }
-    .intro-card h4 {
-        margin-top: 24px;
-        color: #00334e;
-    }
-    .badge {
-        display: inline-block;
-        padding: 6px 12px;
-        background-color: #0d6efd;
-        color: white;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            color: #1a1a1a;
+        }
+        .intro-box {
+            background-color: #f1f3f5;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h2 {
+            color: #124265;
+        }
+        h4 {
+            margin-top: 20px;
+            color: #0b3c5d;
+        }
+        ul {
+            padding-left: 20px;
+        }
     </style>
 
-    <div class="intro-card">
-        <div class="badge">USDA Data Tool</div>
-
-        <h2>Welcome to the Supply & Demand Calculator</h2>
-
-        <p>This tool is built for analysts to <strong>quickly access, edit, and export</strong> key agricultural commodity data from the USDA Production, Supply & Distribution (PSD) system.</p>
+    <div class="intro-box">
+        <h2>Welcome to the USDA Supply & Demand Calculator</h2>
+        <p>This app helps analysts <strong>quickly fetch, edit, and analyze</strong> agricultural commodity data using the live USDA PSD API.</p>
 
         <h4>What you can do:</h4>
         <ul>
-            <li>Select <strong>Commodity</strong>, <strong>Country</strong>, and <strong>Market Year</strong></li>
-            <li>Fetch live S&D data using the <strong>USDA PSD API</strong></li>
+            <li>Select Commodity, Country, and Market Year</li>
+            <li>Fetch real-time PSD data from USDA</li>
             <li>Manually adjust values like:
                 <ul>
                     <li>Production</li>
@@ -72,7 +68,7 @@ with tab1:
                     <li>Exports</li>
                 </ul>
             </li>
-            <li>Instantly view:
+            <li>View recalculated metrics:
                 <ul>
                     <li>Total Supply</li>
                     <li>Domestic Consumption</li>
@@ -80,19 +76,18 @@ with tab1:
                     <li>Ending Stocks</li>
                 </ul>
             </li>
-            <li>Download results as a <code>.csv</code> file</li>
+            <li>Download results as a CSV file</li>
         </ul>
 
-        <h4>Navigation Tips:</h4>
+        <h4>Navigation Help:</h4>
         <ul>
-            <li><strong>Tab 1</strong> (This): Introduction and Instructions</li>
-            <li><strong>Tab 2</strong>: Use the Calculator to fetch and edit data</li>
-            <li><strong>Tab 3</strong>: Appendix – Full methodology and API logic</li>
+            <li><strong>Tab 1</strong>: This Introduction</li>
+            <li><strong>Tab 2</strong>: Use the Calculator</li>
+            <li><strong>Tab 3</strong>: Appendix & Logic</li>
         </ul>
-
-        <p>Hover over input fields in the Calculator to see detailed descriptions. Click the tabs at the top to navigate between sections.</p>
     </div>
-    """, unsafe_allow_html=True)
+    """, height=700)
+
 
 
 
