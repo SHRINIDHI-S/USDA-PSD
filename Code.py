@@ -298,11 +298,13 @@ with tab2:
 # %% Step 7: Download Option with Highlight Column
     csv_file = final_df.to_csv(index=False)
     st.download_button(
-        label="Download Supply and Demand Metrics CSV",
-        data=csv_file,
-        file_name="supply_demand_metrics.csv",
-        mime="text/csv"
-    )
+    label="Download Supply and Demand Metrics CSV",
+    data=csv_file,
+    file_name="supply_demand_metrics.csv",
+    mime="text/csv",
+    key="download_csv_tab2"  # ✅ uniquely identifies this download button
+)
+
 
     print("✅ CSV file includes highlight column and is ready for download.")
 
