@@ -19,29 +19,51 @@ print("_" * 40)
 tab1, tab2, tab3 = st.tabs(["Introduction", "Supply & Demand Calculator", "Appendix & Methodology"])
 
 # %%
+
 # %% Introduction Content
 with tab1:
     st.title("USDA Supply and Demand Analysis Application")
 
     st.markdown("""
-    This application allows analysts to:
-    - Select a **Commodity**, **Country**, and **Market Year**
-    - Fetch Supply and Demand data directly from the USDA PSD API
-    - Modify and validate key metrics:
-        - Beginning Stocks
+    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 10px;">
+    <h3>Welcome to the USDA Supply & Demand Calculator!</h3>
+
+    This easy-to-use application helps analysts quickly fetch, adjust, and analyze 
+    key agricultural commodity metrics by connecting to the live USDA Production, Supply, and Distribution (PSD) API.
+
+    ---
+    <h4>🚀 What you can do:</h4>
+
+    - Select a **Commodity**, **Country**, and **Market Year**.
+    - Fetch **live real-time S&D data** directly from USDA databases.
+    - **Modify** editable fields like:
         - Production
         - Imports
         - Feed Domestic Consumption
         - FSI Consumption
         - Exports
-    - Instantly recalculate derived fields:
+    - Instantly **recalculate**:
         - Total Supply
         - Domestic Consumption
         - Total Use
         - Ending Stocks
-    - Download results as a `.csv` file for reporting or analysis.
-    """)
-    st.markdown("---")
+    - Download your **final customized dataset** as a **CSV file**.
+
+    ---
+    <h4>📂 Navigation Instructions:</h4>
+
+    - **Introduction Tab** → Learn how the app works.
+    - **Supply & Demand Calculator Tab** → Perform selections, edits, and calculations.
+    - **Appendix Tab** → View full logic, formulas, and API references.
+    
+    🔵 To move across sections:
+      - Simply **click** on the desired tab name at the top.
+      - **Hover your mouse** on any tab if the text is too long to display fully.
+
+    ---
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # %%
 # %% API Configuration
