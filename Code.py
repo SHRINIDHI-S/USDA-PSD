@@ -20,49 +20,80 @@ tab1, tab2, tab3 = st.tabs(["Introduction", "Supply & Demand Calculator", "Appen
 
 # %%
 
-# %% Introduction Content
+# %% Introduction Content – Full Visual Upgrade
 with tab1:
-    st.title("USDA Supply and Demand Analysis Application")
-
     st.markdown("""
-    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 10px;">
-    <h3>Welcome to the USDA Supply & Demand Calculator!</h3>
+    <style>
+    .intro-card {
+        background-color: #f8f9fa;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+        color: #000000;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .intro-card h2 {
+        color: #2e6f95;
+    }
+    .intro-card h4 {
+        margin-top: 25px;
+        color: #00334e;
+    }
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    </style>
 
-    This easy-to-use application helps analysts quickly fetch, adjust, and analyze 
-    key agricultural commodity metrics by connecting to the live USDA Production, Supply, and Distribution (PSD) API.
+    <div class="intro-card">
+        <div class="badge">USDA Data Tool</div>
 
-    ---
-    <h4>🚀 What you can do:</h4>
+        <h2>Welcome to the Supply & Demand Calculator</h2>
 
-    - Select a **Commodity**, **Country**, and **Market Year**.
-    - Fetch **live real-time S&D data** directly from USDA databases.
-    - **Modify** editable fields like:
-        - Production
-        - Imports
-        - Feed Domestic Consumption
-        - FSI Consumption
-        - Exports
-    - Instantly **recalculate**:
-        - Total Supply
-        - Domestic Consumption
-        - Total Use
-        - Ending Stocks
-    - Download your **final customized dataset** as a **CSV file**.
+        This tool is built for analysts to <strong>quickly access, edit, and export</strong> global commodity data 
+        from the official USDA Production, Supply & Distribution (PSD) system.
 
-    ---
-    <h4>📂 Navigation Instructions:</h4>
+        <h4>What you can do:</h4>
+        <ul>
+            <li>Select <strong>Commodity</strong>, <strong>Country</strong>, and <strong>Market Year</strong></li>
+            <li>Fetch live S&D data using the <strong>USDA PSD API</strong></li>
+            <li>Manually adjust values like:
+                <ul>
+                    <li>Production</li>
+                    <li>Imports</li>
+                    <li>Feed Dom. Consumption</li>
+                    <li>FSI Consumption</li>
+                    <li>Exports</li>
+                </ul>
+            </li>
+            <li>Get real-time calculations:
+                <ul>
+                    <li>Total Supply</li>
+                    <li>Domestic Consumption</li>
+                    <li>Total Use</li>
+                    <li>Ending Stocks</li>
+                </ul>
+            </li>
+            <li>Download results as <code>.csv</code></li>
+        </ul>
 
-    - **Introduction Tab** → Learn how the app works.
-    - **Supply & Demand Calculator Tab** → Perform selections, edits, and calculations.
-    - **Appendix Tab** → View full logic, formulas, and API references.
-    
-    🔵 To move across sections:
-      - Simply **click** on the desired tab name at the top.
-      - **Hover your mouse** on any tab if the text is too long to display fully.
+        <h4>How to Navigate:</h4>
+        <ul>
+            <li><strong>Tab 1 (This)</strong> – Introduction & Instructions</li>
+            <li><strong>Tab 2</strong> – Calculator: Fetch data, edit, calculate</li>
+            <li><strong>Tab 3</strong> – Appendix: Full logic, formulas, and API references</li>
+        </ul>
 
-    ---
+        Hover over input boxes for tooltips. Use the sidebar if enabled. Click tabs at the top to switch between views.
     </div>
     """, unsafe_allow_html=True)
+
 
 
 # %%
