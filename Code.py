@@ -187,80 +187,140 @@ with tab2:
     print("✅ PSD data fetched and parsed into attributeId:value dictionary.")
 
 # %%
-# Step 4: Attribute Mapping
-id_map = {
-    name: attribute_map.get(name, -1)
-    for name in [
-        "Beginning Stocks",
-        "Production",
-        "Imports",
-        "Feed Dom. Consumption",
-        "FSI Consumption",
-        "Exports"
-    ]
-}
+# %% Step 4 onwards: Inside tab2 only
+with tab2:
+    # Step 4: Attribute Mapping
+    id_map = {
+        name: attribute_map.get(name, -1)
+        for name in [
+            "Beginning Stocks",
+            "Production",
+            "Imports",
+            "Feed Dom. Consumption",
+            "FSI Consumption",
+            "Exports"
+        ]
+    }
 
-# Retrieve values from data_dict with safe defaults
-values = {
-    key: float(data_dict.get(attr_id, 0))
-    for key, attr_id in id_map.items()
-}
+    # Create value dictionary from fetched PSD data
+    values = {
+        key: float(data_dict.get(attr_id, 0))
+        for key, attr_id in id_map.items()
+    }
 
-st.subheader("Editable Key Metrics (Provide Adjustments)")
-st.caption("Beginning Stocks: Stock carried over from the previous year. (Auto-filled)")
+    # Display Header for Metrics Section
+    st.subheader("Key Supply and Demand Metrics")
+    st.caption("Beginning Stocks: Stock carried over from the previous year. (Auto-filled)")
 
-# Beginning Stocks are shown but not editable
-beginning_stocks = values["Beginning Stocks"]
-st.write(f"Beginning Stocks: {beginning_stocks}")
+    # Beginning Stocks - displayed as reference (non-editable)
+    beginning_stocks = values["Beginning Stocks"]
+    st.write(f"Beginning Stocks: {beginning_stocks}")
 
-# Editable fields for the analyst
-production = st.number_input(
-    "Production", 
-    value=values["Production"], 
-    min_value=0.0, 
-    max_value=1_000_000.0, 
-    step=1.0, 
-    help="Total domestic production during the year."
-)
+    # Editable Inputs for User
+    production = st.number_input(
+        "Production", 
+        value=values["Production"], 
+        min_value=0.0, 
+        max_value=1_000_000.0, 
+        step=1.0, 
+        help="Total domestic production during the year."
+    )
 
-imports = st.number_input(
-    "Imports", 
-    value=values["Imports"], 
-    min_value=0.0, 
-    max_value=1_000_000.0, 
-    step=1.0, 
-    help="Total imports during the year."
-)
+    imports = st.number_input(
+        "Imports", 
+        value=values["Imports"], 
+        min_value=0.0, 
+        max_value=1_000_000.0, 
+        step=1.0, 
+        help="Total imports during the year."
+    )
 
-feed_dom = st.number_input(
-    "Feed Domestic Consumption", 
-    value=values["Feed Dom. Consumption"], 
-    min_value=0.0, 
-    max_value=1_000_000.0, 
-    step=1.0, 
-    help="Grains or seeds consumed as livestock feed."
-)
+    feed_dom = st.number_input(
+        "Feed Domestic Consumption", 
+        value=values["Feed Dom. Consumption"], 
+        min_value=0.0, 
+        max_value=1_000_000.0, 
+        step=1.0, 
+        help="Grains or seeds consumed as livestock feed."
+    )
 
-fsi_consumption = st.number_input(
-    "FSI Consumption", 
-    value=values["FSI Consumption"], 
-    min_value=0.0, 
-    max_value=1_000_000.0, 
-    step=1.0, 
-    help="Food, Seed, and Industrial uses."
-)
+    fsi_consumption = st.number_input(
+        "FSI Consumption", 
+        value=values["FSI Consumption"], 
+        min_value=0.0, 
+        max_value=1_000_000.0, 
+        step=1.0, 
+        help="Food, Seed, and Industrial uses."
+    )
 
-exports = st.number_input(
-    "Exports", 
-    value=values["Exports"], 
-    min_value=0.0, 
-    max_value=1_000_000.0, 
-    step=1.0, 
-    help="Total exports during the year."
-)
+    exports = st.number_input(
+        "Exports", 
+        value=values["Exports"], 
+        min_value=0.0, 
+        max_value=1_000_000.0, 
+        step=1.0, 
+        help="Total exports during the year."
+    )
 
-# Debug print to confirm rendering
-print("Editable metric fields rendered and values captured.")
+    # Debugging for developer
+    print("User editable inputs captured in Tab 2 only.")
+
+    # Step 5: Perform Calculations
+    total_supply = beginning_stocks + production + imports
+    domestic_consumption = feed_dom + fsi_consumption
+    total_use = domestic_consumption + exports
+    ending_stocks = total_supply - total_use
+
+    # Optional: developer print statements for debugging
+    print("Supply & Demand calculations complete.")
+    print(f"Total Supply: {total_supply}")
+    print(f"Domestic Consumption: {domestic_consumption}")
+    print(f"Total Use: {total_use}")
+    print(f"Ending Stocks: {ending_stocks}")
+
+    # Step 6: Display Final Results
+    st.subheader("Calculated Supply & Demand Metrics")
+
+    final_df = pd.DataFrame({
+        "Metric": [
+            "Beginning Stocks",
+            "Production",
+            "Imports",
+            "Total Supply",
+            "Feed Domestic Consumption",
+            "FSI Consumption",
+            "Domestic Consumption",
+            "Exports",
+            "Total Use",
+            "Ending Stocks"
+        ],
+        "Value": [
+            beginning_stocks,
+            production,
+            imports,
+            total_supply,
+            feed_dom,
+            fsi_consumption,
+            domestic_consumption,
+            exports,
+            total_use,
+            ending_stocks
+        ]
+    })
+
+    st.dataframe(final_df, use_container_width=True)
+    print("Final DataFrame prepared and rendered.")
+
+    # Step 7: Provide Download Option
+    csv_file = final_df.to_csv(index=False)
+    st.download_button(
+        label="Download Supply and Demand Metrics CSV",
+        data=csv_file,
+        file_name="supply_demand_metrics.csv",
+        mime="text/csv"
+    )
+
+    print("CSV download button rendered.")
 
 
 # %%
