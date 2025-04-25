@@ -20,13 +20,13 @@ tab1, tab2, tab3 = st.tabs(["Introduction", "Supply & Demand Calculator", "Appen
 
 # %%
 
-# %% Introduction Content – Full Visual Upgrade
+# %% Introduction Content – Styled and Rendered
 with tab1:
     st.markdown("""
     <style>
     .intro-card {
         background-color: #f8f9fa;
-        padding: 25px;
+        padding: 25px 30px;
         border-radius: 12px;
         box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
         color: #000000;
@@ -34,9 +34,10 @@ with tab1:
     }
     .intro-card h2 {
         color: #2e6f95;
+        margin-bottom: 12px;
     }
     .intro-card h4 {
-        margin-top: 25px;
+        margin-top: 24px;
         color: #00334e;
     }
     .badge {
@@ -47,7 +48,7 @@ with tab1:
         border-radius: 20px;
         font-weight: bold;
         font-size: 14px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
     </style>
 
@@ -56,8 +57,7 @@ with tab1:
 
         <h2>Welcome to the Supply & Demand Calculator</h2>
 
-        This tool is built for analysts to <strong>quickly access, edit, and export</strong> global commodity data 
-        from the official USDA Production, Supply & Distribution (PSD) system.
+        <p>This tool is built for analysts to <strong>quickly access, edit, and export</strong> key agricultural commodity data from the USDA Production, Supply & Distribution (PSD) system.</p>
 
         <h4>What you can do:</h4>
         <ul>
@@ -72,7 +72,7 @@ with tab1:
                     <li>Exports</li>
                 </ul>
             </li>
-            <li>Get real-time calculations:
+            <li>Instantly view:
                 <ul>
                     <li>Total Supply</li>
                     <li>Domestic Consumption</li>
@@ -80,19 +80,20 @@ with tab1:
                     <li>Ending Stocks</li>
                 </ul>
             </li>
-            <li>Download results as <code>.csv</code></li>
+            <li>Download results as a <code>.csv</code> file</li>
         </ul>
 
-        <h4>How to Navigate:</h4>
+        <h4>Navigation Tips:</h4>
         <ul>
-            <li><strong>Tab 1 (This)</strong> – Introduction & Instructions</li>
-            <li><strong>Tab 2</strong> – Calculator: Fetch data, edit, calculate</li>
-            <li><strong>Tab 3</strong> – Appendix: Full logic, formulas, and API references</li>
+            <li><strong>Tab 1</strong> (This): Introduction and Instructions</li>
+            <li><strong>Tab 2</strong>: Use the Calculator to fetch and edit data</li>
+            <li><strong>Tab 3</strong>: Appendix – Full methodology and API logic</li>
         </ul>
 
-        Hover over input boxes for tooltips. Use the sidebar if enabled. Click tabs at the top to switch between views.
+        <p>Hover over input fields in the Calculator to see detailed descriptions. Click the tabs at the top to navigate between sections.</p>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 
