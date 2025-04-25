@@ -19,8 +19,8 @@ print("_" * 40)
 tab1, tab2, tab3 = st.tabs(["Introduction", "Supply & Demand Calculator", "Appendix & Methodology"])
 
 # %%
+# %% Tabbed UI: Introduction | Supply & Demand App | Appendix
 
-# %% Introduction Content – Styled and Rendered
 import streamlit.components.v1 as components
 
 with tab1:
@@ -87,10 +87,6 @@ with tab1:
         </ul>
     </div>
     """, height=700)
-
-
-
-
 
 # %%
 # %% API Configuration
@@ -187,9 +183,8 @@ with tab2:
     print("✅ PSD data fetched and parsed into attributeId:value dictionary.")
 
 # %%
-# %% Step 4 onwards: Inside tab2 only
+# %% Step 4: Attribute Mapping & Editable Metrics UI
 with tab2:
-    # Step 4: Attribute Mapping
     id_map = {
         name: attribute_map.get(name, -1)
         for name in [
@@ -202,83 +197,39 @@ with tab2:
         ]
     }
 
-    # Create value dictionary from fetched PSD data
     values = {
         key: float(data_dict.get(attr_id, 0))
         for key, attr_id in id_map.items()
     }
 
-    # Display Header for Metrics Section
-    st.subheader("Key Supply and Demand Metrics")
+    st.subheader("Edit & Recalculate Key Supply-Demand Metrics")
     st.caption("Beginning Stocks: Stock carried over from the previous year. (Auto-filled)")
 
-    # Beginning Stocks - displayed as reference (non-editable)
     beginning_stocks = values["Beginning Stocks"]
     st.write(f"Beginning Stocks: {beginning_stocks}")
 
-    # Editable Inputs for User
-    production = st.number_input(
-        "Production", 
-        value=values["Production"], 
-        min_value=0.0, 
-        max_value=1_000_000.0, 
-        step=1.0, 
-        help="Total domestic production during the year."
-    )
+    production = st.number_input("Production", value=values["Production"], min_value=0.0, max_value=1_000_000.0, step=1.0)
+    imports = st.number_input("Imports", value=values["Imports"], min_value=0.0, max_value=1_000_000.0, step=1.0)
+    feed_dom = st.number_input("Feed Domestic Consumption", value=values["Feed Dom. Consumption"], min_value=0.0, max_value=1_000_000.0, step=1.0)
+    fsi_consumption = st.number_input("FSI Consumption", value=values["FSI Consumption"], min_value=0.0, max_value=1_000_000.0, step=1.0)
+    exports = st.number_input("Exports", value=values["Exports"], min_value=0.0, max_value=1_000_000.0, step=1.0)
 
-    imports = st.number_input(
-        "Imports", 
-        value=values["Imports"], 
-        min_value=0.0, 
-        max_value=1_000_000.0, 
-        step=1.0, 
-        help="Total imports during the year."
-    )
+    print("Editable input section rendered under Tab 2.")
 
-    feed_dom = st.number_input(
-        "Feed Domestic Consumption", 
-        value=values["Feed Dom. Consumption"], 
-        min_value=0.0, 
-        max_value=1_000_000.0, 
-        step=1.0, 
-        help="Grains or seeds consumed as livestock feed."
-    )
-
-    fsi_consumption = st.number_input(
-        "FSI Consumption", 
-        value=values["FSI Consumption"], 
-        min_value=0.0, 
-        max_value=1_000_000.0, 
-        step=1.0, 
-        help="Food, Seed, and Industrial uses."
-    )
-
-    exports = st.number_input(
-        "Exports", 
-        value=values["Exports"], 
-        min_value=0.0, 
-        max_value=1_000_000.0, 
-        step=1.0, 
-        help="Total exports during the year."
-    )
-
-    # Debugging for developer
-    print("User editable inputs captured in Tab 2 only.")
-
-    # Step 5: Perform Calculations
+# %% Step 5: Perform Calculations (within tab2)
     total_supply = beginning_stocks + production + imports
     domestic_consumption = feed_dom + fsi_consumption
     total_use = domestic_consumption + exports
     ending_stocks = total_supply - total_use
 
-    # Optional: developer print statements for debugging
-    print("Supply & Demand calculations complete.")
-    print(f"Total Supply: {total_supply}")
-    print(f"Domestic Consumption: {domestic_consumption}")
-    print(f"Total Use: {total_use}")
-    print(f"Ending Stocks: {ending_stocks}")
+    print("Real-time calculations performed:")
+    print(f"  Total Supply = {beginning_stocks} + {production} + {imports} = {total_supply}")
+    print(f"  Domestic Consumption = {feed_dom} + {fsi_consumption} = {domestic_consumption}")
+    print(f"  Total Use = {domestic_consumption} + {exports} = {total_use}")
+    print(f"  Ending Stocks = {total_supply} - {total_use} = {ending_stocks}")
 
-    # Step 6: Display Final Results
+# %% Step 6: Display Final Results (Styled Table with Header & Borders)
+with tab2:
     st.subheader("Calculated Supply & Demand Metrics")
 
     final_df = pd.DataFrame({
@@ -308,10 +259,43 @@ with tab2:
         ]
     })
 
-    st.dataframe(final_df, use_container_width=True)
-    print("Final DataFrame prepared and rendered.")
+    calculated_fields = [
+        "Total Supply",
+        "Domestic Consumption",
+        "Total Use",
+        "Ending Stocks"
+    ]
 
-    # Step 7: Provide Download Option
+    def highlight_rows(row):
+        if row["Metric"] in calculated_fields:
+            return [
+                'background-color: #fff3cd; color: black; font-weight: bold; border: 1.5px solid white;',
+                'background-color: #fff3cd; color: black; font-weight: bold; border: 1.5px solid white;'
+            ]
+        return ['border: 1.5px solid #ccc;'] * len(row)
+
+    styled_df = (
+        final_df.style
+        .apply(highlight_rows, axis=1)
+        .set_table_styles([
+            {"selector": "thead tr th", 
+             "props": [
+                 ("background-color", "#1f1f1f"),
+                 ("color", "white"),
+                 ("font-weight", "bold"),
+                 ("border-bottom", "2px solid white"),
+                 ("border-top", "2px solid white"),
+             ]},
+            {"selector": "th", "props": [("border", "1px solid white")]},
+            {"selector": "td", "props": [("border", "1px solid #aaa")]}
+        ])
+    )
+
+    st.dataframe(styled_df, use_container_width=True)
+
+    print("✅ Styled table with bold header and calculated row highlights rendered.")
+
+# %% Step 7: Download Option with Highlight Column
     csv_file = final_df.to_csv(index=False)
     st.download_button(
         label="Download Supply and Demand Metrics CSV",
@@ -320,75 +304,9 @@ with tab2:
         mime="text/csv"
     )
 
-    print("CSV download button rendered.")
+    print("✅ CSV file includes highlight column and is ready for download.")
 
 
-# %%
-# Step 5: Perform Calculations
-total_supply = beginning_stocks + production + imports
-domestic_consumption = feed_dom + fsi_consumption
-total_use = domestic_consumption + exports
-ending_stocks = total_supply - total_use
-
-# Debug prints (uncomment during development/testing)
-print("Real-time calculations performed:")
-print(f"  Total Supply = {beginning_stocks} + {production} + {imports} = {total_supply}")
-print(f"  Domestic Consumption = {feed_dom} + {fsi_consumption} = {domestic_consumption}")
-#print(f
-
-# %%
-# Step 6: Display Final Results
-st.subheader("Calculated Supply & Demand Metrics")
-
-final_df = pd.DataFrame({
-    "Metric": [
-        "Beginning Stocks",
-        "Production",
-        "Imports",
-        "Total Supply",
-        "Feed Domestic Consumption",
-        "FSI Consumption",
-        "Domestic Consumption",
-        "Exports",
-        "Total Use",
-        "Ending Stocks"
-    ],
-    "Value": [
-        beginning_stocks,
-        production,
-        imports,
-        total_supply,
-        feed_dom,
-        fsi_consumption,
-        domestic_consumption,
-        exports,
-        total_use,
-        ending_stocks
-    ]
-})
-
-# Display the final table to the user
-st.dataframe(final_df, use_container_width=True)
-
-# Debug print to verify final DataFrame creation
-# print("Final recalculated DataFrame prepared for display and download.")
-# %%  
-# %% 
-# Step 7: Provide Download Option
-# ---
-# This enables the user to download the recalculated table as a CSV file.
-
-csv_file = final_df.to_csv(index=False)
-
-st.download_button(
-    label="Download Supply and Demand Metrics CSV",
-    data=csv_file,
-    file_name="supply_demand_metrics.csv",
-    mime="text/csv"
-)
-
-# Debug print
-# print("CSV download button available for user.")
 
     
 
